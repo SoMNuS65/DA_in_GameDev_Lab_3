@@ -1,16 +1,15 @@
-# DAinGD-lab4
 # АНАЛИЗ ДАННЫХ И ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ [in GameDev]
 Отчет по лабораторной работе #4 выполнил(а):
-- Миронова Наталья Андреевна
-- РИ220930
-- 
+- Шайхутдинов Рамазан Шамильевич;
+- РИ-220948
+
 Отметка о выполнении заданий (заполняется студентом):
 
 | Задание | Выполнение | Баллы |
 | ------ | ------ | ------ |
 | Задание 1 | * | 60 |
 | Задание 2 | * | 20 |
-| Задание 3 | * | 20 |
+| Задание 3 | # | 20 |
 
 знак "*" - задание выполнено; знак "#" - задание не выполнено;
 
@@ -19,12 +18,8 @@
 - к.э.н., доцент Панов М.А.
 - ст. преп., Фадеев В.О.
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 ## Цель работы
-Изучение модели работы перцептрона посредством использования Unity.
+Изучить работу перцептрона в среде Unity
 
 ## Задание 1
 ### в проекте Unity реализовать перцептрон, который умеет производить вычисления:
@@ -34,11 +29,22 @@
 ### XOR | 0+0=0 0+1=1 1+0=1 1+1=0
 
 Ход работы:
-- Создала проект Unity и добавила туда скрипт Perceptron, добавила его на пустой GameObject и просмотрела, как действует Console. 
+- Сперва создал проект Unity, добавил пустой GameObject и добавил скрипт Perceptron.cs из предоставленного репозитория.
+- После запуска проекта, в консоли появились логи с информацией: 
 
+- Для OR:
 ![image](https://github.com/knightalli/DAinGD-lab4/assets/127225486/f3617045-cd57-42fc-a1a4-1edc2e7bb1ac)
 
+- Для AND:
+![image](https://github.com/knightalli/DAinGD-lab4/assets/127225486/f3617045-cd57-42fc-a1a4-1edc2e7bb1ac)
 
+- Для NAND:
+![image](https://github.com/knightalli/DAinGD-lab4/assets/127225486/f3617045-cd57-42fc-a1a4-1edc2e7bb1ac)
+
+- Для XOR:
+![image](https://github.com/knightalli/DAinGD-lab4/assets/127225486/f3617045-cd57-42fc-a1a4-1edc2e7bb1ac)
+
+- Скрипт Персептрона из репозитория:
 ```cs
 using System.Collections;
 using System.Collections.Generic;
@@ -147,9 +153,8 @@ public class Perceptron : MonoBehaviour
 
 ## Задание 2
 ###  Построить графики зависимости количества эпох от ошибки  обучения. Указать от чего зависит необходимое количество эпох обучения.
-Ход работы:
-- Я проанализировала данные, полученные после запуска персептрона для каждой логики, и оформила их в таблицу.
-- Для первых трех логик персептрон быстро обучается и к 7 эпохе уже перестает делать ошибки, а отличии от логики XOR, которая в ростом количества эпох совершает больше и больше ошибок.
+- Я собрал информацию с логов после каждого запуска персептрона для всех логических случаев:
+- Персептрон отлично обучается, к 6 эпохе не делает ошибок, кроме случая в XOR, с повышением эпохи делает ошибок больше:
 
 ![image](https://github.com/knightalli/DAinGD-lab4/assets/127225486/058b7773-5643-4160-950a-0e25dd2bead9)
 
@@ -157,121 +162,11 @@ public class Perceptron : MonoBehaviour
 
 ## Задание 3
 ### Построить визуальную модель работы перцептрона на сцене Unity.
-Ход работы:
-- 
-
-```cs
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class ChangeColor : MonoBehaviour
-{
-    [SerializeField] private int numberType;
-    private Material material;
-    [SerializeField] private int numberTrigger;
-    [SerializeField] private Material[] materials;
-
-    void Start()
-    {
-        material = gameObject.GetComponent<MeshRenderer>().material;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (SceneManager.GetActiveScene().buildIndex == 0) ORScene();
-        if (SceneManager.GetActiveScene().buildIndex == 1) ANDScene();
-        if (SceneManager.GetActiveScene().buildIndex == 2) NANDScene();
-        if (SceneManager.GetActiveScene().buildIndex == 3) XORScene();
-        Destroy(other.gameObject);
-    }
-
-    private void ORScene()
-    {
-        if (numberType == 0)
-        {
-            if (numberTrigger == 0) material.color = materials[0].color;
-            else if (numberTrigger == 1) material.color = materials[1].color;
-        }
-
-        if (numberType == 1)
-        {
-            if (numberTrigger == 0) material.color = materials[1].color;
-            else if (numberTrigger == 1) material.color = materials[1].color;
-        }
-    }
-
-    private void ANDScene()
-    {
-        if (numberType == 0)
-        {
-            if (numberTrigger == 0) material.color = materials[0].color;
-            else if (numberTrigger == 1) material.color = materials[0].color;
-        }
-
-        if (numberType == 1)
-        {
-            if (numberTrigger == 0) material.color = materials[0].color;
-            else if (numberTrigger == 1) material.color = materials[1].color;
-        }
-    }
-
-    private void NANDScene()
-    {
-        if (numberType == 0)
-        {
-            if (numberTrigger == 0) material.color = materials[1].color;
-            else if (numberTrigger == 1) material.color = materials[1].color;
-        }
-
-        if (numberType == 1)
-        {
-            if (numberTrigger == 0) material.color = materials[1].color;
-            else if (numberTrigger == 1) material.color = materials[0].color;
-        }
-    }
-
-    private void XORScene()
-    {
-        if (numberType == 0)
-        {
-            if (numberTrigger == 0) material.color = materials[0].color;
-            else if (numberTrigger == 1) material.color = materials[1].color;
-        }
-
-        if (numberType == 1)
-        {
-            if (numberTrigger == 0) material.color = materials[1].color;
-            else if (numberTrigger == 1) material.color = materials[0].color;
-        }
-    }
-}
-```
-![4ad](https://github.com/knightalli/DAinGD-lab4/assets/127225486/cbd4144b-6572-4bd3-9a9a-aa3a423d8aac)
-
-
+-
 
 ## Выводы
-Я научилась реализовывать персептрон на Unity3D. Также проанализировала эпохи и построила график. Также с помощью кубиков визуализировала действия логик OR, AND, NAND, XOR.
-
-
-
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+Я реализовал персептрон на пустом GameObject'е, а также проанализировал обучение с разным количеством эпох и построил график на полученных данных.
 
 ## Powered by
 
-**BigDigital Team: Denisov | Fadeev | Panov**
+Шайхутдинов Р.
